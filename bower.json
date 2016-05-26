@@ -1,7 +1,6 @@
 {
   "name": "mauris.github.io",
   "description": "My personal site 2.0",
-  "main": "index.js",
   "authors": [
     "Sam-Mauris Yong"
   ],
@@ -14,5 +13,18 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "overrides": {
+    "angular-animate": {
+      "main": [
+        "./angular-animate.js"
+      ]
+    }
+  },
+  "dependencies": {
+    "angular": "^1.5.5",
+    "bootstrap": "^3.3.6",
+    "angular-animate": "^1.5.5",
+    "angular-route": "^1.5.5"
+  }
 }
