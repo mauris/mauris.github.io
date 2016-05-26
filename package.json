@@ -1,0 +1,19 @@
+{
+  "name": "mauris.github.io",
+  "version": "1.0.0",
+  "description": "My personal site 2.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mauris/mauris.github.io.git"
+  },
+  "author": "Sam-Mauris Yong",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/mauris/mauris.github.io/issues"
+  },
+  "homepage": "https://github.com/mauris/mauris.github.io#readme"
+}
