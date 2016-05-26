@@ -8,17 +8,19 @@
   <link rel="stylesheet" href="assets/css/vendor.css">
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
-<body>
+<body ng-app="mauris">
   <div class="container splash">
     <div class="row">
       <div class="col-md-12">
-        <h1>Olá!</h1>
-        <h2>Sam-Mauris Yong is my name.<br /> I am a Software Devsigner and<br /> as a hobby I capture memories.</h2>
+        <hello></hello>
+        <h2>Sam-Mauris Yong is my name.<br /> I am a <b>Software Devsigner</b> and<br /> as a hobby I <b>capture memories</b>.</h2>
       </div>
     </div>
   </div>
 
   <script src="assets/js/vendor.js"></script>
+  <script src="assets/js/components/app.js"></script>
+  <script src="assets/js/components/hello/helloDirective.js"></script>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
