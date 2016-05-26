@@ -1,7 +1,14 @@
+body{
+  background: #111022;
+  color:#FFF;
+}
+
 .splash h1 {
   font-size: 80px;
+  margin-top: 40px;
 }
 
 .splash h2{
   font-size:32px;
+  margin-bottom: 80px;
 }
