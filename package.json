@@ -1,7 +1,7 @@
 {
-  "name": "mauris.github.io",
+  "name": "mauris.sg",
   "version": "1.0.0",
-  "description": "My personal site 2.0",
+  "description": "My personal website at http://mauris.sg/",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,24 +11,14 @@
     "url": "git+https://github.com/mauris/mauris.github.io.git"
   },
   "author": "Sam-Mauris Yong",
-  "license": "Unlicense",
+  "license": "MIT",
+  "private": true,
   "bugs": {
     "url": "https://github.com/mauris/mauris.github.io/issues"
   },
   "homepage": "https://github.com/mauris/mauris.github.io#readme",
   "devDependencies": {
-    "del": "^2.2.0",
-    "gulp": "^3.9.1",
-    "gulp-clean-css": "^2.0.8",
-    "gulp-concat": "^2.6.0",
-    "gulp-filter": "^4.0.0",
-    "gulp-flatten": "^0.2.0",
-    "gulp-less": "^3.1.0",
-    "gulp-load-plugins": "^1.2.4",
-    "gulp-replace": "^0.5.4",
-    "gulp-sass": "^2.3.1",
-    "gulp-uglify": "^1.5.3",
-    "main-bower-files": "^2.13.1",
-    "require-dir": "^0.3.0"
+    "pug-cli": "^1.0.0-alpha6",
+    "static-server": "^2.2.1"
   }
 }
