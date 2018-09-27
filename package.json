@@ -4,7 +4,10 @@
   "description": "My personal website at http://mauris.sg/",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "./scripts/build.sh",
+    "publish": "npm run build && ./scripts/publish.sh",
+    "watch": "./scripts/watch.sh",
+    "diff": "./scripts/build.sh && ./scripts/diff.sh"
   },
   "repository": {
     "type": "git",
