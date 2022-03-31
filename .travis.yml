@@ -4,7 +4,7 @@ node_js:
 cache:
   yarn: true
 before_install:
-  - yarn set version 3.x
+  - yarn set version 3
 script:
   - yarn build # Runs next build
   - yarn build:export # Runs next export and generates the out directory
