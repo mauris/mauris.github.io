@@ -15,7 +15,7 @@ export default function PostLayout({ post }: PostLayoutProps) {
   return (
     <article className={styles.postWrapper}>
       <div className={styles.postHeader}>
-        <h3 className={styles.postTitle}>{post.meta.title}</h3>
+        <h2 className={styles.postTitle}>{post.meta.title}</h2>
         <Link href={`/posts/${post.id}`}>
           <a title="Permalink">
             <LinkIcon />

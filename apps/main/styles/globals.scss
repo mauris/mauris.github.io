@@ -3,57 +3,69 @@
 @tailwind utilities;
 @tailwind variants;
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-    Helvetica Neue, sans-serif;
-  line-height: 1.6;
-  font-size: 18px;
-}
-
-body {
-  @apply bg-white dark:bg-stone-800 dark:text-white;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-a {
-  text-decoration: none;
-  @apply text-sky-600 dark:text-sky-300;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-p {
-  @apply my-4;
-}
-
-time {
-  @apply text-xs text-stone-400 dark:text-stone-500;
-}
-
-ul {
-  @apply list-disc list-inside;
-
-  & > li {
-    @apply pb-0.5;
+@layer base {
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+      Helvetica Neue, sans-serif;
+    line-height: 1.6;
+    font-size: 18px;
   }
-}
 
-ol {
-  @apply list-decimal list-inside;
-  & > li {
-    @apply pb-0.5;
+  body {
+    @apply bg-white dark:bg-stone-800 dark:text-white;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  a {
+    text-decoration: none;
+    @apply text-sky-600 dark:text-sky-300;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  p {
+    @apply my-4;
+  }
+
+  time {
+    @apply text-xs text-stone-400 dark:text-stone-500;
+  }
+
+  h1 {
+    @apply text-2xl font-bold;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  h3 {
+    @apply text-lg;
+  }
+
+  ul {
+    @apply list-disc;
+
+    & > li {
+      @apply pb-0.5 ml-8;
+    }
+  }
+
+  ol {
+    @apply list-decimal;
+    & > li {
+      @apply pb-0.5 ml-8;
+    }
   }
 }
