@@ -51,7 +51,14 @@ function PostCoverImage({ coverImage, coverImageCaption }: PostCoverImageProps) 
   return (
     <div className={styles.postCoverImage}>
       <div className={styles.postCoverImageWrapper}>
-        <Image src={coverImage} alt={coverImageCaption || ''} layout="fill" objectFit="cover" objectPosition="center" />
+        <Image
+          src={coverImage}
+          alt={coverImageCaption || ''}
+          priority
+          layout="fill"
+          objectFit="cover"
+          objectPosition="center"
+        />
       </div>
       {coverImageCaption && <ReactMarkdown>{coverImageCaption}</ReactMarkdown>}
     </div>
