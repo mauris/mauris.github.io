@@ -44,7 +44,7 @@ export function DarkLightThemeToggle() {
 function MoonIcon() {
   return (
     <svg
-      className="text-slate-800 dark:text-white inline"
+      className="text-slate-800 hover:text-sky-600 dark:text-white hover:dark:text-sky-300 transition-all duration-300 inline"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
       width="24px"
@@ -60,7 +60,7 @@ function MoonIcon() {
 function SunIcon() {
   return (
     <svg
-      className="text-slate-800 dark:text-white inline"
+      className="text-slate-800 hover:text-sky-600 dark:text-white hover:dark:text-sky-300 transition-all duration-300 inline"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
       width="24px"

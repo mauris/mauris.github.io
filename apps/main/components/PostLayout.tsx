@@ -26,13 +26,15 @@ export default function PostLayout({ post }: PostLayoutProps) {
         <FormattedDate rawDate={post.meta.date}></FormattedDate>
       </div>
       <PostCoverImage coverImage={post.meta.coverImage} coverImageCaption={post.meta.coverImageCaption} />
-      <ReactMarkdown
-        components={{
-          code: CodeBlock,
-        }}
-      >
-        {post.content}
-      </ReactMarkdown>
+      <div className={styles.postContent}>
+        <ReactMarkdown
+          components={{
+            code: CodeBlock,
+          }}
+        >
+          {post.content}
+        </ReactMarkdown>
+      </div>
     </article>
   );
 }
@@ -49,15 +51,7 @@ function PostCoverImage({ coverImage, coverImageCaption }: PostCoverImageProps) 
   return (
     <div className={styles.postCoverImage}>
       <div className={styles.postCoverImageWrapper}>
-        <Image
-          src={coverImage}
-          alt={coverImageCaption || ''}
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
-          width={640}
-          height={400}
-        />
+        <Image src={coverImage} alt={coverImageCaption || ''} layout="fill" objectFit="cover" objectPosition="center" />
       </div>
       {coverImageCaption && <ReactMarkdown>{coverImageCaption}</ReactMarkdown>}
     </div>

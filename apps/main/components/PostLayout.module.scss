@@ -29,6 +29,12 @@ div.postDate {
   }
 }
 
+.postContent {
+  code {
+    @apply text-amber-600 dark:text-amber-300;
+  }
+}
+
 .postCoverImage {
   p {
     @apply opacity-50 text-sm text-center mt-1 mb-3;
