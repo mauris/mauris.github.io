@@ -1,0 +1,27 @@
+{
+  "name": "next-site",
+  "version": "1.0.0",
+  "repository": "https://github.com/mauris/next-site.git",
+  "author": {
+    "name": "Sam Yong",
+    "url": "https://github.com/mauris"
+  },
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "yarn workspaces foreach -pti --from '@apps/*' run dev",
+    "build": "yarn workspaces foreach -pti --from '@apps/*' run build",
+    "build:export": "yarn workspaces foreach -pti '@apps/*' run build:export",
+    "start": "yarn workspaces foreach -pti --from '@apps/*' run start",
+    "test:unit": "yarn workspaces foreach run test:unit",
+    "test:lint": "yarn workspaces foreach run test:lint"
+  },
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  },
+  "packageManager": "yarn@3.2.0"
+}

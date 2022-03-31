@@ -1,0 +1,5 @@
+.codeBlock {
+  & > div {
+    @apply shadow-lg rounded;
+  }
+}

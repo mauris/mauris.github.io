@@ -1,0 +1,49 @@
+h3.postTitle {
+  @apply text-xl inline;
+}
+
+div.postDate {
+  border-left: 0.2rem solid #dedede;
+  line-height: 0.8rem;
+  @apply pl-2 mb-3;
+}
+
+.postWrapper {
+  @apply mb-6;
+}
+
+.postHeader {
+  vertical-align: baseline;
+  & > a {
+    @apply ml-2;
+  }
+  & > a > svg {
+    height: 16px;
+    width: 16px;
+    display: inline-block;
+    vertical-align: baseline;
+
+    &:hover {
+      @apply text-gray-200;
+    }
+  }
+}
+
+.postCoverImage {
+  p {
+    @apply opacity-50 text-sm text-center mt-1 mb-3;
+  }
+}
+
+.postCoverImageWrapper {
+  height: 30vh;
+  @apply relative w-full;
+
+  & > span {
+    overflow: initial !important;
+  }
+
+  img {
+    @apply shadow-xl lg:rounded-xl rounded;
+  }
+}
