@@ -41,6 +41,7 @@ After spending about 3 days on it, I was able to piece together [the blog](https
 - [Julia](https://bionicjulia.com/) gave some guidelines on setup (picked up `react-markdown` and `react-syntax-highlighter` from here, without having to explicitly write code to parse Markdown using `remark`): <https://bionicjulia.com/blog/setting-up-nextjs-markdown-blog-with-typescript>
 - Guide on using GitHub Pages to host the exported Next.js app as a static webapp: <https://wallis.dev/blog/deploying-a-next-js-app-to-github-pages>
 - Using `next-transpile-modules` to ensure workspace dependency packages/libraries get transpiled properly: <https://www.npmjs.com/package/next-transpile-modules>
+- Using GitHub Actions to magically update GitHub Pages `gh-pages` branch whenever there are changes made on the `main` branch: <https://gregrickaby.blog/article/nextjs-github-pages>
 
 # Conclusion
 
