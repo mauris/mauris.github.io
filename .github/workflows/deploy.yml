@@ -1,0 +1,32 @@
+name: Deploy to Github Pages
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+          cache: "yarn"
+      - run: yarn set version 3.x
+      - name: Build
+        run: |
+          yarn
+          yarn build
+          yarn build:export
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./apps/main/out
