@@ -1,26 +1,24 @@
 import SiteLayout from '@self/components/SiteLayout';
-import { getAllPosts, PostData } from '@self/lib/postData';
+import { getAllPosts, PostData, PostsPageData } from '@self/lib/postData';
 import PostsListLayout from '@self/components/PostsListLayout';
+import Link from 'next/link';
+import PaginatedPostListPage from './p/[pageNum]';
 
 interface HomeProps {
-  postList: PostData[];
-  hasNextPage: boolean;
+  posts: PostData[];
+  page: PostsPageData | null;
 }
 
-export default function Home({ postList, hasNextPage }: HomeProps) {
-  return (
-    <SiteLayout>
-      <PostsListLayout postList={postList} />
-    </SiteLayout>
-  );
+export default function Home({ posts, page }: HomeProps) {
+  return <PaginatedPostListPage posts={posts} page={page} />;
 }
 
 export async function getStaticProps() {
   const { pages, map } = await getAllPosts();
   return {
     props: {
-      postList: pages.length > 0 ? pages[0].ids.map((id) => map[id]) : [],
-      hasNextPage: pages.length > 1,
+      posts: pages.length > 0 ? pages[0].ids.map((id) => map[id]) : [],
+      page: pages.length > 0 ? pages[0] : null,
     },
   };
 }

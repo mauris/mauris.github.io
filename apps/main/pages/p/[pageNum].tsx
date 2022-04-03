@@ -1,16 +1,20 @@
 import { getAllPosts, PostData, PostsPageData } from '@self/lib/postData';
 import SiteLayout from '@self/components/SiteLayout';
 import PostsListLayout from '@self/components/PostsListLayout';
+import Link from 'next/link';
+import PostsListPaginator from '@self/components/PostsListPaginator';
 
 type PaginatedPostListPageProps = {
   posts: PostData[];
-  page: PostsPageData;
+  page: PostsPageData | null;
 };
 
-export default function PaginatedPostListPage({ posts }: PaginatedPostListPageProps) {
+export default function PaginatedPostListPage({ posts, page }: PaginatedPostListPageProps) {
   return (
     <SiteLayout>
       <PostsListLayout postList={posts} />
+
+      <PostsListPaginator page={page} />
     </SiteLayout>
   );
 }

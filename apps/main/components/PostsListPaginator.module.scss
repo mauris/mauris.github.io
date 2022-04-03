@@ -1,0 +1,22 @@
+.paginator {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @apply my-2;
+
+  & > div {
+    max-width: 40%;
+    * {
+      @apply truncate;
+    }
+  }
+}
+
+.paginatorPrev {
+  text-align: left;
+}
+
+.paginatorNext {
+  text-align: right;
+}
