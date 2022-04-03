@@ -5,5 +5,11 @@
   },
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "files.associations": { "*.scss": "postcss", "*.css": "postcss" }
+  "files.associations": {
+    "*.scss": "postcss",
+    "*.css": "postcss"
+  },
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "./.github/workflows/deploy.yml"
+  }
 }
