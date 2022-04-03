@@ -19,7 +19,9 @@ jobs:
         with:
           node-version: "16.x"
           cache: "yarn"
-      - run: yarn set version stable
+      - run: |
+          yarn set version stable
+          npx next telemetry disable
       - name: Build
         run: |
           yarn
