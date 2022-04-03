@@ -34,7 +34,7 @@ Once I was through with the tutorial, I figured that I'll try out Next.js by cre
 
 # Additional Resources
 
-After spending about 3 days on it, I was able to piece together [the blog](https://github.com/mauris/next-site) you see here, with much thanks to the following resources:
+After spending about 3 days on it, I was able to piece together [the blog](https://github.com/mauris/mauris.github.io) you see here, with much thanks to the following resources:
 
 - The full tutorial to create a Next.js app: <https://nextjs.org/learn/basics/create-nextjs-app>
 - An example of how to setup a monorepo with Next.js: <https://github.com/belgattitude/nextjs-monorepo-example>
