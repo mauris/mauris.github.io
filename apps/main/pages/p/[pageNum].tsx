@@ -1,7 +1,6 @@
 import { getAllPosts, PostData, PostsPageData } from '@self/lib/postData';
 import SiteLayout from '@self/components/SiteLayout';
 import PostsListLayout from '@self/components/PostsListLayout';
-import Link from 'next/link';
 import PostsListPaginator from '@self/components/PostsListPaginator';
 
 type PaginatedPostListPageProps = {

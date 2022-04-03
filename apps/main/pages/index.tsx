@@ -1,7 +1,5 @@
 import SiteLayout from '@self/components/SiteLayout';
 import { getAllPosts, PostData, PostsPageData } from '@self/lib/postData';
-import PostsListLayout from '@self/components/PostsListLayout';
-import Link from 'next/link';
 import PaginatedPostListPage from './p/[pageNum]';
 
 interface HomeProps {
