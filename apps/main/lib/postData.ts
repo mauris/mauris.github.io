@@ -22,6 +22,7 @@ export interface PostData {
 }
 
 export interface PostsPageData {
+  pageIdx: number;
   ids: string[];
   hasPrev: boolean;
   hasNext: boolean;
@@ -66,7 +67,7 @@ export async function getAllPosts() {
   const all = getSortedPosts(allPostsData);
   linkPostsNextPrev(all);
 
-  const pages = buildPostListPages(all, 20);
+  const pages = buildPostListPages(all, 10);
 
   const result: GetAllPostsResult = {
     allIds: all.map((p) => p.id),
@@ -118,11 +119,13 @@ function buildPostListPages(sortedPosts: PostData[], postsPerPage: number) {
   for (let i = 0; i < sortedPosts.length; i += postsPerPage) {
     const page = sortedPosts.slice(i, i + postsPerPage);
     pages.push({
+      pageIdx: pages.length + 1,
       ids: page.map((p) => p.id),
       hasPrev: true,
       hasNext: true,
     });
   }
+
   if (pages.length > 0) {
     pages[0].hasPrev = false;
     pages[pages.length - 1].hasNext = false;
