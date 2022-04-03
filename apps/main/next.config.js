@@ -1,4 +1,5 @@
 const withTM = require('next-transpile-modules')(['@libs/common'], { resolveSymlinks: false });
+const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig = {
   reactStrictMode: true,
@@ -27,6 +28,7 @@ const nextConfig = {
     // @link {https://github.com/vercel/next.js/discussions/26420|Discussion}
     externalDir: true,
   },
+  assetPrefix: isProd ? '/your-github-repo-name/' : '',
   images: {
     loader: 'akamai',
     path: '',
