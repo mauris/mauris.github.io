@@ -1,8 +1,7 @@
-import fs from 'fs';
-import path from 'path';
 import matter from 'gray-matter';
+import fetch from 'node-fetch';
 
-const postsDirectory = path.join(process.cwd(), 'posts');
+const BLOG_POSTS_URL = 'https://api.github.com/repos/mauris/site-content/contents/blog';
 
 export interface PostMeta {
   id: string;
@@ -37,20 +36,38 @@ interface GetAllPostsResult {
   pages: PostsPageData[];
 }
 
-let postDataMemo: GetAllPostsResult = null;
-export async function getAllPosts() {
-  if (postDataMemo) {
-    return postDataMemo;
-  }
-  const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData: PostData[] = await Promise.all(
-    fileNames.map(async (fileName) => {
-      // Remove ".md" from file name to get id
-      const id = fileName.replace(/\.md$/, '');
+interface GitHubFolderItem {
+  name: string;
+  sha: string;
+  size: number;
+  download_url: string;
+}
 
-      // Read markdown file as string
-      const fullPath = path.join(postsDirectory, fileName);
-      const fileContents = await readFileContent(fullPath);
+export async function fetchJson<T>(url: string) {
+  const response = await fetch(url, { method: 'GET' });
+  return (await response.json()) as T;
+}
+
+export async function fetchRaw(url: string) {
+  const response = await fetch(url, { method: 'GET' });
+  return response.text();
+}
+
+let allPostsMemo: GetAllPostsResult = null;
+export async function getAllPosts() {
+  if (allPostsMemo) {
+    return allPostsMemo;
+  }
+  console.log('Fetching all posts content');
+  const filesList = await fetchJson<GitHubFolderItem[]>(BLOG_POSTS_URL);
+  console.log(`${filesList.length} posts found`);
+
+  const allPostsData: PostData[] = await Promise.all(
+    filesList.map(async (file) => {
+      // Remove ".md" from file name to get id
+      const id = file.name.replace(/\.md$/, '');
+
+      const fileContents = await fetchRaw(file.download_url);
 
       // Use gray-matter to parse the post metadata section
       const { content, data } = matter(fileContents);
@@ -78,20 +95,8 @@ export async function getAllPosts() {
     }, {}),
     pages,
   };
-  postDataMemo = result;
+  allPostsMemo = result;
   return result;
-}
-
-function readFileContent(filePath: string) {
-  return new Promise<string>((resolve, reject) => {
-    fs.readFile(filePath, 'utf-8', (err, data) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(data);
-    });
-  });
 }
 
 function linkPostsNextPrev(sortedPosts: PostData[]) {
