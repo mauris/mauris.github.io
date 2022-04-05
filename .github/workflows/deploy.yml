@@ -10,7 +10,8 @@ on:
 jobs:
   deployment:
     runs-on: ubuntu-latest
-
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
     steps:
       - uses: actions/checkout@v2
 
@@ -21,7 +22,6 @@ jobs:
           cache: "yarn"
       - run: |
           yarn set version stable
-          npx next telemetry disable
       
       # See https://github.com/actions/cache/blob/main/examples.md#node---yarn-2
       - name: Get yarn cache directory path
@@ -36,6 +36,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
+      - uses: actions/cache@v3
+        id: next-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ github.workspace }}/**/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('apps/**', 'libs/**', '**/package.json', '**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-
+        
       - name: Build
         run: |
           yarn
