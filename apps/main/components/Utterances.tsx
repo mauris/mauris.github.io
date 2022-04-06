@@ -23,12 +23,18 @@ function createScript({ repo, config = {} }: UtterancesProps) {
 
 export default function Utterances({ repo, config }: UtterancesProps) {
   const wrapperRef = useRef<HTMLDivElement>();
+  const loadCounter = useRef<number>(0);
 
   useEffect(() => {
     const currentWrapper = wrapperRef.current;
 
     const scriptEl = createScript({ repo, config });
+    loadCounter.current += 1;
     scriptEl.onload = () => {
+      loadCounter.current -= 1;
+      if (loadCounter.current > 0) {
+        return;
+      }
       // remove earlier loaded instances
       while (currentWrapper.children.length > 1) {
         currentWrapper.removeChild(currentWrapper.firstChild);
