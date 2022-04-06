@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import matter from 'gray-matter';
 import fetch from 'node-fetch';
 
@@ -52,38 +54,61 @@ export async function fetchRaw(url: string) {
   return response.text();
 }
 
+function mapFileToObject(id, fileContents) {
+  // Use gray-matter to parse the post metadata section
+  const { content, data } = matter(fileContents);
+
+  // Combine the data with the id
+  return {
+    id,
+    meta: data as PostMeta,
+    content,
+  };
+}
+
+async function retrieveFileList() {
+  if (process.env.USE_LOCAL_BLOG_DATA) {
+    const dirPath = path.resolve(process.cwd(), process.env.USE_LOCAL_BLOG_DATA, 'blog');
+    console.log(`Fetching all posts content from ${dirPath}`);
+    const files = fs.readdirSync(dirPath);
+    console.log(`${files.length} posts found`);
+
+    return Promise.all(
+      files.map(async (file) => {
+        // Remove ".md" from file name to get id
+        const id = file.replace(/\.md$/, '');
+        const fileContents = await readFileContent(path.join(dirPath, file));
+
+        return mapFileToObject(id, fileContents);
+      }),
+    );
+  }
+
+  console.log('Fetching all posts content from GitHub');
+  const filesList = await fetchJson<GitHubFolderItem[] | { message: string }>(BLOG_POSTS_URL);
+  if ('message' in filesList) {
+    throw new Error(filesList.message);
+  }
+  console.log(`${filesList.length} posts found`);
+
+  return Promise.all(
+    filesList.map(async (file) => {
+      // Remove ".md" from file name to get id
+      const id = file.name.replace(/\.md$/, '');
+      const fileContents = await fetchRaw(file.download_url);
+
+      return mapFileToObject(id, fileContents);
+    }),
+  );
+}
+
 let allPostsMemo: GetAllPostsResult = null;
 export async function getAllPosts() {
   if (allPostsMemo) {
     return allPostsMemo;
   }
 
-  console.log('Fetching all posts content');
-  const filesList = await fetchJson<GitHubFolderItem[] | {message: string}>(BLOG_POSTS_URL);
-  if ('message' in filesList) {
-    throw new Error(filesList.message);
-  }
-  console.log(`${filesList.length} posts found`);
-
-  const allPostsData: PostData[] = await Promise.all(
-    filesList.map(async (file) => {
-      // Remove ".md" from file name to get id
-      const id = file.name.replace(/\.md$/, '');
-
-      const fileContents = await fetchRaw(file.download_url);
-
-      // Use gray-matter to parse the post metadata section
-      const { content, data } = matter(fileContents);
-
-      // Combine the data with the id
-      return {
-        id,
-        meta: data as PostMeta,
-        content,
-      };
-    }),
-  );
-
+  const allPostsData: PostData[] = await retrieveFileList();
   const all = getSortedPosts(allPostsData);
   linkPostsNextPrev(all);
 
@@ -139,4 +164,16 @@ function buildPostListPages(sortedPosts: PostData[], postsPerPage: number) {
     pages[pages.length - 1].hasNext = false;
   }
   return pages;
+}
+
+function readFileContent(filePath: string) {
+  return new Promise<string>((resolve, reject) => {
+    fs.readFile(filePath, 'utf-8', (err, data) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(data);
+    });
+  });
 }
