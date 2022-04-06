@@ -1,4 +1,4 @@
-import { useEffect, createRef, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 type UtterancesConfigKey = 'issue-term' | 'theme' | 'label';
 

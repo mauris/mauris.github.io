@@ -4,7 +4,6 @@ import fetch from 'node-fetch';
 const BLOG_POSTS_URL = 'https://api.github.com/repos/mauris/site-content/contents/blog';
 
 export interface PostMeta {
-  id: string;
   title: string;
   date: string;
   tags?: string[];
@@ -58,8 +57,12 @@ export async function getAllPosts() {
   if (allPostsMemo) {
     return allPostsMemo;
   }
+
   console.log('Fetching all posts content');
-  const filesList = await fetchJson<GitHubFolderItem[]>(BLOG_POSTS_URL);
+  const filesList = await fetchJson<GitHubFolderItem[] | {message: string}>(BLOG_POSTS_URL);
+  if ('message' in filesList) {
+    throw new Error(filesList.message);
+  }
   console.log(`${filesList.length} posts found`);
 
   const allPostsData: PostData[] = await Promise.all(
