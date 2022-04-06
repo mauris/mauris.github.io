@@ -1,42 +1,26 @@
-import { MouseEventHandler, useEffect, useState } from 'react';
-
-function initializeDarkModeState() {
-  // check for server-side render
-  if (typeof window === 'undefined') {
-    return false;
-  }
-
-  const theme = localStorage.getItem('theme');
-  // check user's system preference
-  if (theme === 'dark' || (theme === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.classList.add('dark');
-    return true;
-  }
-  document.documentElement.classList.remove('dark');
-  return false;
-}
+import { MouseEventHandler, useState, useEffect } from 'react';
+import { useTheme } from 'next-themes';
 
 export function DarkLightThemeToggle() {
-  const [isDarkMode, setDarkMode] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
+  const [isSSR, setIsSSR] = useState(true);
 
   useEffect(() => {
-    setDarkMode(initializeDarkModeState());
+    setIsSSR(false);
   }, []);
 
   const toggleTheme: MouseEventHandler = (e) => {
     e.preventDefault();
-    if (isDarkMode) {
-      localStorage.setItem('theme', 'light');
-    } else {
-      localStorage.setItem('theme', 'dark');
-    }
-    document.documentElement.classList.toggle('dark');
-    setDarkMode((cur) => !cur);
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
   };
+
+  if (isSSR) {
+    return null;
+  }
 
   return (
     <a title="Toggle Theme" className="cursor-pointer select-none" onClick={toggleTheme}>
-      {isDarkMode ? <MoonIcon /> : <SunIcon />}
+      {resolvedTheme === 'dark' ? <MoonIcon /> : <SunIcon />}
     </a>
   );
 }
