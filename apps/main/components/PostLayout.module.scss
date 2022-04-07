@@ -9,7 +9,7 @@ div.postDate {
 }
 
 .postWrapper {
-  @apply mb-6 text-ellipsis overflow-hidden break-words text-justify;
+  @apply mb-6;
 }
 
 .postHeader {
@@ -30,6 +30,8 @@ div.postDate {
 }
 
 .postContent {
+  @apply text-ellipsis overflow-hidden break-words text-justify;
+
   code {
     @apply text-amber-600 dark:text-amber-300;
   }
