@@ -1,22 +1,19 @@
 import { MouseEventHandler, useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
+import { useIsMounted } from '../hooks/useIsMounted';
 
 export function DarkLightThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
-  const [isSSR, setIsSSR] = useState(true);
+  const mounted = useIsMounted();
 
-  useEffect(() => {
-    setIsSSR(false);
-  }, []);
+  if (!mounted) {
+    return null;
+  }
 
   const toggleTheme: MouseEventHandler = (e) => {
     e.preventDefault();
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
   };
-
-  if (isSSR) {
-    return null;
-  }
 
   return (
     <a title="Toggle Theme" className="cursor-pointer select-none" onClick={toggleTheme}>
