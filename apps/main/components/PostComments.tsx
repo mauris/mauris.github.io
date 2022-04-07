@@ -10,7 +10,7 @@ type PostCommentsProps = {
 export default function PostComments({ post }: PostCommentsProps) {
   const { resolvedTheme } = useTheme();
   const mounted = useIsMounted();
-  if (!mounted) return null;
+
   return (
     <Giscus
       id="comments"
@@ -23,7 +23,7 @@ export default function PostComments({ post }: PostCommentsProps) {
       reactionsEnabled="1"
       emitMetadata="0"
       inputPosition="top"
-      theme={resolvedTheme}
+      theme={mounted ? resolvedTheme : 'light'}
       lang="en"
       loading="lazy"
     />
