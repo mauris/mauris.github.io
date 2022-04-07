@@ -16,8 +16,8 @@ export default function PostComments({ post }: PostCommentsProps) {
       id="comments"
       repo="mauris/site-content"
       repoId="R_kgDOHH9MQA"
-      category="Announcements"
-      categoryId="DIC_kwDOF1L2fM4B-hVS"
+      category="General"
+      categoryId="DIC_kwDOHH9MQM4CObUL"
       mapping="specific"
       term={post.id}
       reactionsEnabled="1"
