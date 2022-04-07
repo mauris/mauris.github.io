@@ -16,6 +16,7 @@
     "test:lint": "next lint"
   },
   "dependencies": {
+    "@giscus/react": "^2.0.1",
     "@libs/common": "*",
     "autoprefixer": "^10.4.4",
     "cssnano": "^5.1.7",

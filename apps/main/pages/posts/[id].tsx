@@ -2,8 +2,7 @@ import { getAllPosts, PostData } from '@self/lib/postData';
 import SiteLayout from '@self/components/SiteLayout';
 import PostPaginator from '@self/components/PostPaginator';
 import PostLayout from '@self/components/PostLayout';
-import Utterances from '@self/components/Utterances';
-import { useTheme } from 'next-themes';
+import PostComments from '@self/components/PostComments';
 
 type PostPageProps = {
   post: PostData;
@@ -12,17 +11,11 @@ type PostPageProps = {
 };
 
 export default function PostPage({ post, nextPost, prevPost }: PostPageProps) {
-  const { resolvedTheme } = useTheme();
-  const utterancesTheme = resolvedTheme === 'dark' ? 'github-dark' : 'github-light';
-
   return (
     <SiteLayout title={post.meta.title}>
       <PostLayout post={post} />
       <PostPaginator nextPost={nextPost} prevPost={prevPost} />
-      <Utterances
-        repo="mauris/site-content"
-        config={{ 'issue-term': post.id, label: 'utterances-comments', theme: utterancesTheme }}
-      />
+      <PostComments post={post} />
     </SiteLayout>
   );
 }
