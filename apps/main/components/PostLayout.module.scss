@@ -18,10 +18,9 @@ h2.postTitle {
 
   p {
     @apply inline;
-    @apply p-1;
-    border: 1px solid;
+    @apply p-1 px-2 md:px-3;
 
-    @apply rounded border-gray-200	dark:border-gray-500;
+    @apply rounded border-gray-200	dark:border-gray-800 border-solid border-2;
   }
 
   p + p {
