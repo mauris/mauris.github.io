@@ -142,7 +142,7 @@ function getSortedPosts(posts: PostData[]) {
     } else if (a.meta.date > b.meta.date) {
       return -1;
     } else {
-      return 0;
+      return a.id.localeCompare(b.id);
     }
   });
 }
