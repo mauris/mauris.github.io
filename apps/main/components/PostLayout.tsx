@@ -22,8 +22,13 @@ export default function PostLayout({ post }: PostLayoutProps) {
           </a>
         </Link>
       </div>
-      <div className={styles.postDate}>
+      <div className={styles.postMetaLine}>
         <FormattedDate rawDate={post.meta.date}></FormattedDate>
+        <div className={styles.postTagContainer}>
+          {post.meta.tags?.map((tag) => (
+            <p>{tag}</p>
+          ))}
+        </div>
       </div>
       <PostCoverImage coverImage={post.meta.coverImage} coverImageCaption={post.meta.coverImageCaption} />
       <div className={styles.postContent}>

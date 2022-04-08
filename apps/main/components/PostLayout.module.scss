@@ -2,10 +2,31 @@ h2.postTitle {
   @apply text-2xl md:text-3xl inline;
 }
 
-div.postDate {
-  border-left: 0.2rem solid #dedede;
-  line-height: 0.8rem;
-  @apply pl-2 mb-3;
+.postMetaLine {
+  @apply pl-2 md:pl-4 mb-3 md:mb-6;
+
+  @apply text-xs md:text-sm;
+
+  time {
+    @apply mr-2;
+    @apply text-xs text-stone-400 dark:text-stone-500;
+  }
+}
+
+.postTagContainer {
+  @apply break-words my-2;
+
+  p {
+    @apply inline;
+    @apply p-1;
+    border: 1px solid;
+
+    @apply rounded border-gray-200	dark:border-gray-500;
+  }
+
+  p + p {
+    @apply ml-2;
+  }
 }
 
 .postWrapper {
@@ -14,14 +35,16 @@ div.postDate {
 
 .postHeader {
   vertical-align: baseline;
+  @apply mb-1 md:mb-3;
+
   & > a {
     @apply ml-2;
   }
   & > a > svg {
-    height: 16px;
-    width: 16px;
-    display: inline-block;
-    vertical-align: baseline;
+    height: 20px;
+    width: 20px;
+
+    @apply inline-block align-baseline;
 
     &:hover {
       @apply text-gray-200;
