@@ -26,7 +26,7 @@ export default function PostLayout({ post }: PostLayoutProps) {
         <FormattedDate rawDate={post.meta.date}></FormattedDate>
         <div className={styles.postTagContainer}>
           {post.meta.tags?.map((tag) => (
-            <p>{tag}</p>
+            <p key={tag}>{tag}</p>
           ))}
         </div>
       </div>
