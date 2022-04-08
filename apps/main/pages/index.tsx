@@ -1,6 +1,6 @@
 import SiteLayout from '@self/components/SiteLayout';
 import { getAllPosts, PostData, PostsPageData } from '@self/lib/postData';
-import PaginatedPostListPage from './p/[pageNum]';
+import PaginatedPostListPage from './blog/pages/[pageNum]';
 
 interface HomeProps {
   posts: PostData[];

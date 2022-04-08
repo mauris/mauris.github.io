@@ -23,7 +23,7 @@ export default function PostsListLayout({ postList }: PostsListLayoutProps) {
       <ul className="list-none">
         {postList.map(({ id, meta }) => (
           <li className="mb-3 md:mb-8" key={id}>
-            <Link href={`/posts/${id}`}>
+            <Link href={`/blog/posts/${id}`}>
               <a title={meta.title}>
                 <h4>{meta.title}</h4>
               </a>
