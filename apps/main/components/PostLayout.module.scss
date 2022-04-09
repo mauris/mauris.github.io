@@ -16,14 +16,19 @@ h2.postTitle {
 .postTagContainer {
   @apply break-words my-2;
 
-  p {
+  a {
     @apply inline;
     @apply p-1 px-2 md:px-3;
 
-    @apply rounded border-gray-200	dark:border-gray-800 border-solid border-2;
+    @apply rounded border-opacity-50 border-gray-500 border-solid border;
+
+    &:hover {
+      @apply no-underline;
+      @apply bg-slate-600 bg-opacity-50 transition-colors duration-500;
+    }
   }
 
-  p + p {
+  a + a {
     @apply ml-2;
   }
 }

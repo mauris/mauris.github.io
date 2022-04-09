@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import styles from './PostLayout.module.scss';
+import { getLinkToPost, getLinkToTag } from '@self/lib/links';
 
 type PostLayoutProps = {
   post: PostData;
@@ -16,7 +17,7 @@ export default function PostLayout({ post }: PostLayoutProps) {
     <article className={styles.postWrapper}>
       <div className={styles.postHeader}>
         <h2 className={styles.postTitle}>{post.meta.title}</h2>
-        <Link href={`/blog/posts/${post.id}`}>
+        <Link href={getLinkToPost(post)}>
           <a title="Permalink">
             <LinkIcon />
           </a>
@@ -26,7 +27,9 @@ export default function PostLayout({ post }: PostLayoutProps) {
         <FormattedDate rawDate={post.meta.date}></FormattedDate>
         <div className={styles.postTagContainer}>
           {post.meta.tags?.map((tag) => (
-            <p key={tag}>{tag}</p>
+            <Link href={getLinkToTag(tag)} key={tag}>
+              {tag}
+            </Link>
           ))}
         </div>
       </div>

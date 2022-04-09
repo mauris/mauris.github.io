@@ -1,3 +1,4 @@
+import { getLinkToPostsPage } from '@self/lib/links';
 import { PostData, PostsPageData } from '@self/lib/postData';
 import Link from 'next/link';
 
@@ -17,7 +18,7 @@ export default function PostsListPaginator({ page }: PostsListPaginatorProps) {
       <div className={styles.paginatorPrev}>
         {page.hasPrev && (
           <div>
-            <Link href={`/blog/pages/${page.pageIdx - 1}`}>&#8592; Previous Page</Link>
+            <Link href={getLinkToPostsPage(page.pageIdx - 1)}>&#8592; Previous Page</Link>
           </div>
         )}
       </div>
@@ -26,7 +27,7 @@ export default function PostsListPaginator({ page }: PostsListPaginatorProps) {
         {page.hasNext && (
           <div>
             <span className={styles.paginatorLabel}></span>
-            <Link href={`/blog/pages/${page.pageIdx + 1}`}>Next Page &#8594;</Link>
+            <Link href={getLinkToPostsPage(page.pageIdx + 1)}>Next Page &#8594;</Link>
           </div>
         )}
       </div>
