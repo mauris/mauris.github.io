@@ -35,6 +35,7 @@ interface GetAllPostsResult {
   all: PostData[];
   map: PostDataByIdMap;
   pages: PostsPageData[];
+  tagsMap: { [k: string]: string[] };
 }
 
 interface GitHubFolderItem {
@@ -113,6 +114,7 @@ export async function getAllPosts() {
   linkPostsNextPrev(all);
 
   const pages = buildPostListPages(all, 10);
+  const tagsMap = buildPostsByTags(all);
 
   const result: GetAllPostsResult = {
     allIds: all.map((p) => p.id),
@@ -121,10 +123,24 @@ export async function getAllPosts() {
       acc[cur.id] = cur;
       return acc;
     }, {}),
+    tagsMap,
     pages,
   };
   allPostsMemo = result;
   return result;
+}
+
+function buildPostsByTags(posts: PostData[]) {
+  const mapping = posts.reduce((acc, cur) => {
+    cur.meta.tags?.forEach((tag) => {
+      if (!(tag in acc)) {
+        acc[tag] = [];
+      }
+      acc[tag].push(cur.id);
+    });
+    return acc;
+  }, {} as { [k: string]: string[] });
+  return mapping;
 }
 
 function linkPostsNextPrev(sortedPosts: PostData[]) {
