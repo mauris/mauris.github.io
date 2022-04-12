@@ -69,3 +69,7 @@
     }
   }
 }
+
+.embed-video {
+  @apply w-full aspect-video lg:rounded-xl rounded;
+}

@@ -1,6 +1,11 @@
 import { PostData } from '@self/lib/postData';
 import { FormattedDate } from '@libs/common';
-import ReactMarkdown from 'react-markdown';
+import { Remark } from 'react-remark';
+import rehypeRaw from 'rehype-raw';
+import remarkOEmbed from 'remark-oembed';
+import rehypeAutoLinkHeadings from 'rehype-autolink-headings';
+import remarkGemoji from 'remark-gemoji';
+
 import CodeBlock from '@self/components/CodeBlock';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -35,13 +40,18 @@ export default function PostLayout({ post }: PostLayoutProps) {
       </div>
       <PostCoverImage coverImage={post.meta.coverImage} coverImageCaption={post.meta.coverImageCaption} />
       <div className={styles.postContent}>
-        <ReactMarkdown
-          components={{
-            code: CodeBlock,
+        <Remark
+          remarkPlugins={[remarkGemoji] as any}
+          remarkToRehypeOptions={{ allowDangerousHtml: true }}
+          rehypePlugins={[rehypeAutoLinkHeadings, rehypeRaw] as any}
+          rehypeReactOptions={{
+            components: {
+              code: (props) => <CodeBlock {...props} />,
+            },
           }}
         >
           {post.content}
-        </ReactMarkdown>
+        </Remark>
       </div>
     </article>
   );
@@ -68,7 +78,7 @@ function PostCoverImage({ coverImage, coverImageCaption }: PostCoverImageProps) 
           objectPosition="center"
         />
       </div>
-      {coverImageCaption && <ReactMarkdown>{coverImageCaption}</ReactMarkdown>}
+      {coverImageCaption && <Remark>{coverImageCaption}</Remark>}
     </div>
   );
 }

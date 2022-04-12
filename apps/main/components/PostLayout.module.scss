@@ -58,6 +58,30 @@ h2.postTitle {
 
 .postContent {
   @apply text-ellipsis overflow-hidden break-words text-justify;
+  @apply grid grid-cols-12;
+
+  & > * {
+    @apply col-span-12 col-start-auto;
+  }
+
+  & > p,
+  & > ul,
+  & > li {
+    @apply md:col-span-10 md:col-start-2;
+  }
+
+  & > h1,
+  & > h2,
+  & > h3,
+  & > h4,
+  & > h5,
+  & > h6 {
+    @apply md:col-span-10 md:col-start-2;
+  }
+
+  & > img {
+    @apply w-full lg:rounded-xl rounded;
+  }
 
   code {
     @apply text-amber-600 dark:text-amber-300;
