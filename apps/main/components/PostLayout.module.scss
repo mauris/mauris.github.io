@@ -56,6 +56,14 @@ h2.postTitle {
   }
 }
 
+.headerLinks {
+  @apply ml-2 md:ml-4;
+  svg {
+    @apply inline;
+    width: 20px;
+  }
+}
+
 .postContent {
   @apply text-ellipsis overflow-hidden break-words text-justify;
   @apply grid grid-cols-12;
