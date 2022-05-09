@@ -1,1 +1,0 @@
-self.__SSG_MANIFEST=new Set(["\u002F","\u002Fblog\u002Fposts\u002F[id]","\u002Fblog\u002Fpages\u002F[pageNum]","\u002Fblog\u002Ftags\u002F[tag]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()
