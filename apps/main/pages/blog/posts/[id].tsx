@@ -1,4 +1,5 @@
 import { getAllPosts, PostData } from '@self/lib/postData';
+import Head from 'next/head';
 import SiteLayout from '@self/components/SiteLayout';
 import PostPaginator from '@self/components/PostPaginator';
 import PostLayout from '@self/components/PostLayout';
@@ -13,6 +14,10 @@ type PostPageProps = {
 export default function PostPage({ post, nextPost, prevPost }: PostPageProps) {
   return (
     <SiteLayout title={post.meta.title}>
+      <Head>
+        <meta property="og:title" content={post.meta.title} key="title" />
+        {post.meta.coverImage && <meta property="og:image" content={post.meta.coverImage} key="image" />}
+      </Head>
       <PostLayout post={post} />
       <PostPaginator nextPost={nextPost} prevPost={prevPost} />
       <PostComments post={post} />
