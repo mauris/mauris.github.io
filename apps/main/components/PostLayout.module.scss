@@ -94,6 +94,11 @@ h2.postTitle {
   code {
     @apply text-amber-600 dark:text-amber-300;
   }
+
+  blockquote {
+    font-size: 1.4rem;
+    margin: 0.2rem 1.2rem;
+  }
 }
 
 .postCoverImage {

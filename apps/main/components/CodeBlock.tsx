@@ -5,9 +5,8 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import styles from './CodeBlock.module.scss';
 
 export default function CodeBlock(originalProps: PropsWithChildren<JSX.IntrinsicElements['code']>) {
-  console.log(originalProps);
   const { className, children, ...props } = originalProps;
-  const match = /language-(\w+)/.exec(className || '');
+  const match = className ? /language-(\w+)/.exec(className) : null;
   return match ? (
     <div className={styles.codeBlock}>
       <SyntaxHighlighter style={vscDarkPlus} language={match[1]} PreTag="div" {...props}>
