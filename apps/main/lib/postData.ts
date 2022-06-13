@@ -3,8 +3,6 @@ import path from 'path';
 import matter from 'gray-matter';
 import fetch from 'node-fetch';
 
-const BLOG_POSTS_URL = 'https://api.github.com/repos/mauris/site-content/contents/blog';
-
 export interface PostMeta {
   title: string;
   date: string;
@@ -38,13 +36,6 @@ interface GetAllPostsResult {
   tagsMap: { [k: string]: string[] };
 }
 
-interface GitHubFolderItem {
-  name: string;
-  sha: string;
-  size: number;
-  download_url: string;
-}
-
 export async function fetchJson<T>(url: string) {
   const response = await fetch(url, { method: 'GET' });
   return (await response.json()) as T;
@@ -68,35 +59,16 @@ function mapFileToObject(id, fileContents) {
 }
 
 async function retrieveFileList() {
-  if (process.env.USE_LOCAL_BLOG_DATA) {
-    const dirPath = path.resolve(process.cwd(), process.env.USE_LOCAL_BLOG_DATA, 'blog');
-    console.log(`Fetching all posts content from ${dirPath}`);
-    const files = fs.readdirSync(dirPath);
-    console.log(`${files.length} posts found`);
-
-    return Promise.all(
-      files.map(async (file) => {
-        // Remove ".md" from file name to get id
-        const id = file.replace(/\.md$/, '');
-        const fileContents = await readFileContent(path.join(dirPath, file));
-
-        return mapFileToObject(id, fileContents);
-      }),
-    );
-  }
-
-  console.log('Fetching all posts content from GitHub');
-  const filesList = await fetchJson<GitHubFolderItem[] | { message: string }>(BLOG_POSTS_URL);
-  if ('message' in filesList) {
-    throw new Error(filesList.message);
-  }
-  console.log(`${filesList.length} posts found`);
+  const dirPath = path.resolve(process.cwd(), 'blog');
+  console.log(`Fetching all posts content from ${dirPath}`);
+  const files = fs.readdirSync(dirPath);
+  console.log(`${files.length} posts found`);
 
   return Promise.all(
-    filesList.map(async (file) => {
+    files.map(async (file) => {
       // Remove ".md" from file name to get id
-      const id = file.name.replace(/\.md$/, '');
-      const fileContents = await fetchRaw(file.download_url);
+      const id = file.replace(/\.md$/, '');
+      const fileContents = await readFileContent(path.join(dirPath, file));
 
       return mapFileToObject(id, fileContents);
     }),
