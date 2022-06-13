@@ -1,3 +1,5 @@
+const withPlugins = require('next-compose-plugins');
+
 const withTM = require('next-transpile-modules')(['@libs/common'], { resolveSymlinks: false });
 
 const nextConfig = {
@@ -33,4 +35,7 @@ const nextConfig = {
   },
 };
 
-module.exports = withTM(nextConfig);
+module.exports = withPlugins([
+  [require('next-optimized-classnames')],
+  [withTM]
+], nextConfig);

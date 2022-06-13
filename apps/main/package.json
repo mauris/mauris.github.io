@@ -22,6 +22,8 @@
     "cssnano": "^5.1.11",
     "gray-matter": "^4.0.3",
     "next": "^12.1.6",
+    "next-compose-plugins": "^2.2.1",
+    "next-optimized-classnames": "https://github.com/mauris/next-optimized-classnames",
     "next-themes": "^0.2.0",
     "next-transpile-modules": "^9.0.0",
     "node-fetch": "^3.2.3",

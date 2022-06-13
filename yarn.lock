@@ -30,6 +30,8 @@ __metadata:
     gray-matter: ^4.0.3
     jest: ^28.1.1
     next: ^12.1.6
+    next-compose-plugins: ^2.2.1
+    next-optimized-classnames: "https://github.com/mauris/next-optimized-classnames"
     next-themes: ^0.2.0
     next-transpile-modules: ^9.0.0
     node-fetch: ^3.2.3
@@ -957,8 +959,8 @@ __metadata:
     next-themes: ^0.2.0
   peerDependencies:
     next: ^12.1.4
-    react: ^18.0.0
-    react-dom: ^18.0.0
+    react: ^18.1.0
+    react-dom: ^18.1.0
   languageName: unknown
   linkType: soft
 
@@ -2233,6 +2235,13 @@ __metadata:
     shebang-command: ^2.0.0
     which: ^2.0.1
   checksum: 671cc7c7288c3a8406f3c69a3ae2fc85555c04169e9d611def9a675635472614f1c0ed0ef80955d5b6d4e724f6ced67f0ad1bb006c2ea643488fcfef994d7f52
+  languageName: node
+  linkType: hard
+
+"css-class-generator@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "css-class-generator@npm:2.0.0"
+  checksum: 260684e7cd9f1e57d2c3c8e3257ef701bcd47e3a9d495067d5ab9a706707be5808a4246008274ea076adf62b0d5ca0dffe32796fc320e01db356b3fe31e83e51
   languageName: node
   linkType: hard
 
@@ -5450,6 +5459,22 @@ __metadata:
   version: 0.6.3
   resolution: "negotiator@npm:0.6.3"
   checksum: b8ffeb1e262eff7968fc90a2b6767b04cfd9842582a9d0ece0af7049537266e7b2506dfb1d107a32f06dd849ab2aea834d5830f7f4d0e5cb7d36e1ae55d021d9
+  languageName: node
+  linkType: hard
+
+"next-compose-plugins@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "next-compose-plugins@npm:2.2.1"
+  checksum: 771762fda2b12b81daf10431cbb494816cff96be02b44009692c6c0eefbacd62cbf51ddb93af8d3380ec00254c6a95d64d10f744d4b9ddadefc21efee7dc69fc
+  languageName: node
+  linkType: hard
+
+"next-optimized-classnames@https://github.com/mauris/next-optimized-classnames":
+  version: 1.0.2
+  resolution: "next-optimized-classnames@https://github.com/mauris/next-optimized-classnames.git#commit=d5533699f708c93b2120fa749be2ba3879977f40"
+  dependencies:
+    css-class-generator: ^2.0.0
+  checksum: ceb519ef2dbc09be43c373729bab40a91752ec3604cd75445f99ddfddf8bcd5a9e5b9645c08c597d1c391257694d4e5865ffe1994f234a9e49e762c092cfbed5
   languageName: node
   linkType: hard
 
