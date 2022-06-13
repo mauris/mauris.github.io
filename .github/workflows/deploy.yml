@@ -20,8 +20,6 @@ jobs:
         with:
           node-version: "16.x"
           cache: "yarn"
-      - run: |
-          yarn set version stable
       
       # See https://github.com/actions/cache/blob/main/examples.md#node---yarn-2
       - name: Get yarn cache directory path
