@@ -8,19 +8,21 @@ tags:
   - software-engineering
 ---
 
-Starting a new software engineering role can get a little overwhelming at a new place. As I navigated through my new role in the past months, I was reminded that as much as I observe the work culture, processes and team in my new position, I'm more of a participant than an observer.
+Starting a new software engineering role can get a little overwhelming at a new place. As I navigated through my new role in the past months, I was reminded that as much as I was observing the existing work culture, processes and team norms in my new position, from the moment I joined I'm now a participant rather than an observer.
 
 These are 3 things that can be of helpful reminder for anyone starting out.
 
 ## 1. Ask questions, often
 
-Whether it's day 1 or 3 years in, communication is key to alignment and understanding.
+Whether it's your first day or 5 years in, communication is key to alignment and understanding.
 
-It's often that we don't ask questions out of fear of asking a "wrong" or "stupid" question, but it shouldn't be the way. I think it is okay to just ask, clarify and understand. That way as you go along, you learn how to ask better questions that can (1) put you and your team on track, (2) navigate you and your team around potential roadblocks, and (3) help you deepen your understanding of the value and meaning of your contribution. 
+It's often that we don't ask questions, for fear of asking a "wrong" or "stupid" question. That shouldn't be the way. I think it's alright to just ask, clarify and understand regardless of what others think of your question.
+
+That way as you go along, you learn how to ask better questions that can (1) put you and your team on track, (2) navigate you and your team around potential roadblocks, and (3) help you deepen your understanding of the value and meaning of your contribution. 
 
 It's way better to ask a "wrong" or "stupid" question than to be a muted team member, because being muted no one else will know what you know. Silence doesn't always mean alignment. 
 
-If you find yourself in a place where you're often condemned for asking a "wrong" or "stupid" questions, you might want to consider if the environment you're in is helping you grow. 
+> If you find yourself in a place where you're often condemned for asking a "wrong" or "stupid" questions, you might want to consider if the environment you're in is helping you grow. 
 
 You might want to find out what's a good way to ask your question, whether synchronously in a Zoom call, asynchronously on the meeting chat, in a 1:1 direct message, or asking it in an open space like wiki comments. 
 
