@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "2015",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -10,9 +10,10 @@
     "incremental": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
     "jsx": "preserve"
   },
   "include": ["**/*.ts", "**/*.tsx"]
