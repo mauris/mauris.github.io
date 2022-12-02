@@ -242,6 +242,14 @@ function EmotionStylesConverter() {
     setInfo('');
   };
 
+  const textAreaClasses = [
+    'w-full h-[calc(60vh)] min-h-[400px]',
+    'font-mono rounded-lg p-2 resize-none',
+    'bg-slate-50 focus:bg-white dark:bg-neutral-800 dark:focus:bg-neutral-900',
+    'focus:placeholder:text-gray-300 dark:focus:placeholder:text-gray-600',
+    'outline outline-1 outline-gray-300 dark:outline-gray-600 focus-visible:outline-2 focus-visible:-outline-offset-1',
+  ].join(' ');
+
   return (
     <div className="pb-4">
       <p>This tool translates between CSS-in-JS string styles and object styles. More for convenience than accuracy.</p>
@@ -250,7 +258,7 @@ function EmotionStylesConverter() {
           <h2 className="mb-2">String Styles</h2>
           <textarea
             ref={stringStylesRef}
-            className="w-full h-[calc(60vh)] min-h-[400px] font-mono rounded-lg p-2 resize-none"
+            className={textAreaClasses}
             onChange={handleStringToObject}
             onKeyDown={handleSpecialKeys}
             spellCheck={false}
@@ -261,7 +269,7 @@ function EmotionStylesConverter() {
           <h2 className="mb-2">Object Styles</h2>
           <textarea
             ref={objectStylesRef}
-            className="w-full h-[calc(60vh)] min-h-[400px] font-mono rounded-lg p-2 resize-none"
+            className={textAreaClasses}
             onChange={handleObjectToString}
             onKeyDown={handleSpecialKeys}
             spellCheck={false}
