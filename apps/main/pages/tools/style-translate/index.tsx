@@ -93,7 +93,6 @@ function retrievePropertyFromIterator(firstToken, iterator, stack) {
 
 function* cssTokenize(cssStr: string) {
   for (const token of tokenize(cssStr)) {
-    console.log(token);
     yield token;
   }
 }
