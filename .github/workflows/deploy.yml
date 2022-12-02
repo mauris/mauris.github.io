@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: "18.x"
           cache: "yarn"
       
       # See https://github.com/actions/cache/blob/main/examples.md#node---yarn-2
@@ -30,7 +30,7 @@ jobs:
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock', '.yarnrc.yml') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
 
@@ -44,7 +44,7 @@ jobs:
         
       - name: Build
         run: |
-          yarn
+          yarn --immutable --immutable-cache
           yarn build
           yarn build:export
       - name: Deploy
