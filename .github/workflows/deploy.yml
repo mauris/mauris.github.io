@@ -44,7 +44,7 @@ jobs:
         
       - name: Build
         run: |
-          yarn --immutable --immutable-cache
+          yarn
           yarn build
           yarn build:export
       - name: Deploy
