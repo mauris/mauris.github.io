@@ -3,6 +3,7 @@ import { serializeStyles } from '@emotion/serialize';
 import SiteLayout from '@self/components/SiteLayout';
 import Link from 'next/link';
 import { useState, useRef } from 'react';
+import debounce from 'lodash/debounce';
 const { tokenize } = require('@csstools/tokenizer');
 const prettier = require('prettier');
 const plugins = [require('prettier/parser-babel')];
@@ -36,22 +37,26 @@ function iteratorConsumer(iterator: Generator<any, void, unknown>, func) {
 
 function retrieveValueFromIterator(iterator, stack) {
   let accumulatedValue = '';
-  iteratorConsumer(iterator, (value) => {
-    if (value.type === 1 && value.code === ';'.charCodeAt(0)) {
+  let endMarker = ';';
+  iteratorConsumer(iterator, (token) => {
+    if (token.type === 1 && token.code === ';'.charCodeAt(0)) {
       return false;
     }
-    if (value.type === 1 && value.code === '}'.charCodeAt(0)) {
-      if (stack.length > 1) {
-        stack.pop();
-      } else {
-        throw new Error("Too many closing brace '}' found.");
-      }
+    if (token.type === 1 && token.code === '{'.charCodeAt(0)) {
+      endMarker = '{';
       return false;
     }
-    accumulatedValue = `${accumulatedValue}${value.lead ? value.lead : ''}${value.data}${value.tail ? value.tail : ''}`;
+    if (token.type === 1 && token.code === '}'.charCodeAt(0)) {
+      endMarker = '}';
+      return false;
+    }
+    accumulatedValue = `${accumulatedValue}${token.lead}${token.data}${token.tail}`;
     return true;
   });
-  return accumulatedValue.trim();
+  return {
+    value: accumulatedValue.trim(),
+    endMarker,
+  };
 }
 
 function retrievePropertyFromIterator(firstToken, iterator, stack) {
@@ -59,22 +64,44 @@ function retrievePropertyFromIterator(firstToken, iterator, stack) {
   if (firstToken.data === '&' || firstToken.data === ':') {
     scopedProperty = true;
   }
-  let accumulatedProperty = firstToken.data;
+  let accumulatedProperty = `${firstToken.lead}${firstToken.data}${firstToken.tail}`;
+
   iteratorConsumer(iterator, (token) => {
-    if (!scopedProperty && token.type === 1 && token.code === 58) {
+    if (!scopedProperty && token.type === 1 && token.code === ':'.charCodeAt(0)) {
       // reached ':'
+      const { value: potentialValue, endMarker } = retrieveValueFromIterator(iterator, stack);
+      if (endMarker === '{') {
+        accumulatedProperty = `${accumulatedProperty}:${potentialValue}`;
+        scopedProperty = true;
+      } else {
+        accumulatedProperty = isCustomProperty(accumulatedProperty)
+          ? accumulatedProperty
+          : replacePropertyName(accumulatedProperty);
+        stack[stack.length - 1][accumulatedProperty] = potentialValue;
+        if (endMarker === '}') {
+          if (stack.length > 1) {
+            stack.pop();
+          } else {
+            throw new Error("Too many closing brace '}' found.");
+          }
+        }
+      }
       return false;
     }
-    if (token.type === 1 && token.code === 123) {
+    if (token.type === 1 && token.code === '{'.charCodeAt(0)) {
       // reached '{'
       scopedProperty = true;
       return false;
     }
+    if (token.type === 1 && token.code === ';'.charCodeAt(0)) {
+      return false;
+    }
     if (token.type === 3) {
       // whitespace
+      accumulatedProperty = `${accumulatedProperty}${token.data}`;
       return true;
     }
-    accumulatedProperty = `${accumulatedProperty}${token.data}`;
+    accumulatedProperty = `${accumulatedProperty}${token.lead}${token.data}${token.tail}`;
     return true;
   });
 
@@ -82,11 +109,6 @@ function retrievePropertyFromIterator(firstToken, iterator, stack) {
     const newScope = {};
     stack[stack.length - 1][accumulatedProperty] = newScope;
     stack.push(newScope);
-  } else {
-    accumulatedProperty = isCustomProperty(accumulatedProperty)
-      ? accumulatedProperty
-      : replacePropertyName(accumulatedProperty);
-    stack[stack.length - 1][accumulatedProperty] = retrieveValueFromIterator(iterator, stack);
   }
   return accumulatedProperty;
 }
@@ -124,6 +146,15 @@ function parseCss(cssStr: string) {
     .slice(4, -2); // remove 'css(...);' wrapping
 }
 
+function triggerChangeEvent(target: HTMLTextAreaElement, newValue: string, start: number, end: number) {
+  const nativeInputValueSetter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set;
+  nativeInputValueSetter.call(target, newValue);
+  const event = new Event('input', { bubbles: true });
+  target.dispatchEvent(event);
+  target.selectionStart = start;
+  target.selectionEnd = end;
+}
+
 function handleOpeningBraceEffect(e: React.KeyboardEvent<HTMLTextAreaElement>) {
   if (!['{', '(', '['].includes(e.key)) {
     return;
@@ -134,12 +165,12 @@ function handleOpeningBraceEffect(e: React.KeyboardEvent<HTMLTextAreaElement>) {
   const braceMatches = { '{': '}', '(': ')', '[': ']' };
   const { value } = e.currentTarget;
 
-  e.currentTarget.value =
-    value.substring(0, start) + e.key + value.substring(start, end) + braceMatches[e.key] + value.substring(end);
-
-  // put caret at right position again
-  e.currentTarget.selectionStart = start + 1;
-  e.currentTarget.selectionEnd = end + 1;
+  triggerChangeEvent(
+    e.currentTarget,
+    value.substring(0, start) + e.key + value.substring(start, end) + braceMatches[e.key] + value.substring(end),
+    start + 1,
+    end + 1,
+  );
 }
 
 function handleTabEffect(e: React.KeyboardEvent<HTMLTextAreaElement>, indentStr: string) {
@@ -178,9 +209,8 @@ function handleTabEffect(e: React.KeyboardEvent<HTMLTextAreaElement>, indentStr:
     }),
     ...lines.slice(lines.length - numAfter),
   ];
-  e.currentTarget.value = newLines.join('\n');
-  e.currentTarget.selectionStart = start + firstIndent;
-  e.currentTarget.selectionEnd = end + indentCount;
+
+  triggerChangeEvent(e.currentTarget, newLines.join('\n'), start + firstIndent, end + indentCount);
 }
 
 function handleEnterAutoIndent(e: React.KeyboardEvent<HTMLTextAreaElement>, indentStr: string) {
@@ -197,13 +227,13 @@ function handleEnterAutoIndent(e: React.KeyboardEvent<HTMLTextAreaElement>, inde
   const startLineIndent = (value.substring(positionOfStartLine + 1, start).match(/^\s+/) || [''])[0];
   const isSelectBeforeClosingBrace = value.substring(end, end + 1) === '}';
 
-  e.currentTarget.value =
+  const newValue =
     value.substring(0, start) +
     `\n${startLineIndent}${addIndent ? indentStr : ''}` +
     (isSelectBeforeClosingBrace ? `\n${startLineIndent}` : '') +
     value.substring(end);
-  e.currentTarget.selectionStart = e.currentTarget.selectionEnd =
-    start + 1 + (addIndent ? indentStr.length : 0) + startLineIndent.length;
+  const cursorPos = start + 1 + (addIndent ? indentStr.length : 0) + startLineIndent.length;
+  triggerChangeEvent(e.currentTarget, newValue, cursorPos, cursorPos);
 }
 
 const handleSpecialKeys = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -218,29 +248,33 @@ function EmotionStylesConverter() {
   const objectStylesRef = useRef<HTMLTextAreaElement>();
   const [info, setInfo] = useState<string>('');
 
-  const handleObjectToString = () => {
-    try {
-      const strOutput = convertObjectStringToCssString(objectStylesRef.current.value);
-      if (strOutput !== undefined) {
-        stringStylesRef.current.value = strOutput;
+  const [handleObjectToString] = useState(() =>
+    debounce(() => {
+      try {
+        const strOutput = convertObjectStringToCssString(objectStylesRef.current.value);
+        if (strOutput !== undefined) {
+          stringStylesRef.current.value = strOutput;
+        }
+      } catch (e) {
+        setInfo(String(e));
+        return;
       }
-    } catch (e) {
-      setInfo(String(e));
-      return;
-    }
-    setInfo('');
-  };
+      setInfo('');
+    }, 500),
+  );
 
-  const handleStringToObject = () => {
-    try {
-      const objectOutput = parseCss(stringStylesRef.current.value);
-      objectStylesRef.current.value = objectOutput;
-    } catch (e) {
-      setInfo(String(e));
-      return;
-    }
-    setInfo('');
-  };
+  const [handleStringToObject] = useState(() =>
+    debounce(() => {
+      try {
+        const objectOutput = parseCss(stringStylesRef.current.value);
+        objectStylesRef.current.value = objectOutput;
+      } catch (e) {
+        setInfo(String(e));
+        return;
+      }
+      setInfo('');
+    }, 500),
+  );
 
   const textAreaClasses = [
     'w-full h-[calc(60vh)] min-h-[400px]',
