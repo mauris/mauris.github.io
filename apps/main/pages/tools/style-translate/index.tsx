@@ -187,19 +187,23 @@ function handleEnterAutoIndent(e: React.KeyboardEvent<HTMLTextAreaElement>, inde
   if (e.key !== 'Enter') {
     return;
   }
+  e.preventDefault();
   const start = e.currentTarget.selectionStart;
   const end = e.currentTarget.selectionEnd;
   const { value } = e.currentTarget;
-  if (value.substring(start - 1, start) !== '{') {
-    return;
-  }
-  e.preventDefault();
+
+  const addIndent = value.substring(start - 1, start) === '{';
+  const positionOfStartLine = value.substring(0, start).lastIndexOf('\n');
+  const startLineIndent = (value.substring(positionOfStartLine + 1, start).match(/^\s+/) || [''])[0];
   const isSelectBeforeClosingBrace = value.substring(end, end + 1) === '}';
 
   e.currentTarget.value =
-    value.substring(0, start) + `\n${indentStr}` + (isSelectBeforeClosingBrace ? '\n' : '') + value.substring(end);
-  e.currentTarget.selectionStart = start + 1 + indentStr.length;
-  e.currentTarget.selectionEnd = start + 1 + indentStr.length;
+    value.substring(0, start) +
+    `\n${startLineIndent}${addIndent ? indentStr : ''}` +
+    (isSelectBeforeClosingBrace ? `\n${startLineIndent}` : '') +
+    value.substring(end);
+  e.currentTarget.selectionStart = e.currentTarget.selectionEnd =
+    start + 1 + (addIndent ? indentStr.length : 0) + startLineIndent.length;
 }
 
 const handleSpecialKeys = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
