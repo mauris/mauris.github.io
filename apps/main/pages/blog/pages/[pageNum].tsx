@@ -30,12 +30,13 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps: GetStaticProps<PaginatedPostListPageProps, { pageNum: string }> = async ({ params }) => {
-  // Fetch necessary data for the blog post using params.id
+  console.log(params);
   const { pages, map } = await getAllPosts();
-  const page = pages[Number(params?.pageNum) ?? 1 - 1];
+  const pageIndex = parseInt(params?.pageNum ?? '1', 10) - 1;
+  const page = pageIndex >= 0 && pageIndex < pages.length ? pages[pageIndex] : null;
 
   const props: PaginatedPostListPageProps = {
-    posts: page.ids.map((id) => map[id]),
+    posts: page ? page.ids.map((id) => map[id]) : [],
     page,
   };
 
