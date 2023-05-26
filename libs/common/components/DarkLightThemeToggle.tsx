@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState, useEffect } from 'react';
+import { MouseEventHandler } from 'react';
 import { useTheme } from 'next-themes';
 import { useIsMounted } from '../hooks/useIsMounted';
 
@@ -6,11 +6,12 @@ const themeIconChoices = {
   system: <AutomaticIcon />,
   light: <SunIcon />,
   dark: <MoonIcon />,
-};
-const toggleChoices = Object.keys(themeIconChoices);
+} as const;
+type ThemeChoice = keyof typeof themeIconChoices;
+const toggleChoices = Object.keys(themeIconChoices) as ThemeChoice[];
 
 export function DarkLightThemeToggle() {
-  const { resolvedTheme, theme, systemTheme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const mounted = useIsMounted();
 
   if (!mounted) {
@@ -19,7 +20,7 @@ export function DarkLightThemeToggle() {
 
   const toggleTheme: MouseEventHandler = (e) => {
     e.preventDefault();
-    let currentIdx = toggleChoices.indexOf(theme);
+    let currentIdx = theme && theme in toggleChoices ? toggleChoices.indexOf(theme as ThemeChoice) : 0;
     if (currentIdx === toggleChoices.length - 1) {
       currentIdx = -1;
     }
@@ -33,7 +34,7 @@ export function DarkLightThemeToggle() {
       className="cursor-pointer select-none"
       onClick={toggleTheme}
     >
-      {themeIconChoices[theme]}
+      {theme && theme in themeIconChoices ? themeIconChoices[theme as ThemeChoice] : themeIconChoices.light}
     </a>
   );
 }

@@ -1,4 +1,4 @@
-import { PostData } from '@self/lib/postData';
+import { PostData } from '@/lib/postData';
 import { FormattedDate } from '@libs/common';
 import { Remark } from 'react-remark';
 import rehypeRaw from 'rehype-raw';
@@ -7,12 +7,13 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutoLinkHeadings from 'rehype-autolink-headings';
 import remarkGemoji from 'remark-gemoji';
 
-import CodeBlock from '@self/components/CodeBlock';
+import CodeBlock from '@/components/CodeBlock';
 import Link from 'next/link';
 import Image from 'next/image';
 
 import styles from './PostLayout.module.scss';
-import { getLinkToPost, getLinkToTag } from '@self/lib/links';
+import { getLinkToPost, getLinkToTag } from '@/lib/links';
+import dynamic from 'next/dynamic';
 
 type PostLayoutProps = {
   post: PostData;
@@ -109,12 +110,20 @@ function LinkIcon() {
   );
 }
 
-function transform(element: JSX.Element) {
+type TransformedElement = {
+  tagName: string;
+  type: string;
+  properties: { [key: string]: unknown };
+  children: TransformedElement[];
+};
+
+function transform(element: JSX.Element): TransformedElement {
   if (typeof element.type === 'function') {
     return transform(element.type());
   }
-  const newElement = {
-    tagName: element.type,
+
+  const newElement: TransformedElement = {
+    tagName: element.type as string,
     type: 'element',
     properties: {},
     children: [],

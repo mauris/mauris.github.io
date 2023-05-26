@@ -1,5 +1,5 @@
-import { getLinkToPostsPage } from '@self/lib/links';
-import { PostData, PostsPageData } from '@self/lib/postData';
+import { getLinkToPostsPage } from '@/lib/links';
+import { PostsPageData } from '@/lib/postData';
 import Link from 'next/link';
 
 import styles from './PostsListPaginator.module.scss';

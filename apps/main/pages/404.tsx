@@ -1,4 +1,4 @@
-import SiteLayout from '@self/components/SiteLayout';
+import SiteLayout from '@/components/SiteLayout';
 import Link from 'next/link';
 
 export default function Custom404() {

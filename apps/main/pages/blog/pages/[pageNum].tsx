@@ -1,7 +1,8 @@
-import { getAllPosts, PostData, PostsPageData } from '@self/lib/postData';
-import SiteLayout from '@self/components/SiteLayout';
-import PostsListLayout from '@self/components/PostsListLayout';
-import PostsListPaginator from '@self/components/PostsListPaginator';
+import { getAllPosts, PostData, PostsPageData } from '@/lib/postData';
+import SiteLayout from '@/components/SiteLayout';
+import PostsListLayout from '@/components/PostsListLayout';
+import PostsListPaginator from '@/components/PostsListPaginator';
+import { GetStaticProps } from 'next';
 
 type PaginatedPostListPageProps = {
   posts: PostData[];
@@ -28,10 +29,10 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params }) {
+export const getStaticProps: GetStaticProps<PaginatedPostListPageProps, { pageNum: string }> = async ({ params }) => {
   // Fetch necessary data for the blog post using params.id
   const { pages, map } = await getAllPosts();
-  const page = pages[params.pageNum - 1];
+  const page = pages[Number(params?.pageNum) ?? 1 - 1];
 
   const props: PaginatedPostListPageProps = {
     posts: page.ids.map((id) => map[id]),
@@ -41,4 +42,4 @@ export async function getStaticProps({ params }) {
   return {
     props,
   };
-}
+};

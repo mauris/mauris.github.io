@@ -1,6 +1,6 @@
 import { FormattedDate } from '@libs/common';
-import { getLinkToPost } from '@self/lib/links';
-import { PostData } from '@self/lib/postData';
+import { getLinkToPost } from '@/lib/links';
+import { PostData } from '@/lib/postData';
 import Link from 'next/link';
 
 import styles from './PostsListLayout.module.scss';

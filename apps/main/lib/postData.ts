@@ -46,7 +46,7 @@ export async function fetchRaw(url: string) {
   return response.text();
 }
 
-function mapFileToObject(id, fileContents) {
+function mapFileToObject(id: string, fileContents: string) {
   // Use gray-matter to parse the post metadata section
   const { content, data } = matter(fileContents);
 
@@ -75,7 +75,7 @@ async function retrieveFileList() {
   );
 }
 
-let allPostsMemo: GetAllPostsResult = null;
+let allPostsMemo: GetAllPostsResult | null = null;
 export async function getAllPosts() {
   if (allPostsMemo) {
     return allPostsMemo;
@@ -94,7 +94,7 @@ export async function getAllPosts() {
     map: all.reduce((acc, cur) => {
       acc[cur.id] = cur;
       return acc;
-    }, {}),
+    }, {} as { [key: string]: PostData }),
     tagsMap,
     pages,
   };

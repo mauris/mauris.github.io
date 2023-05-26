@@ -1,12 +1,20 @@
 import prettify from '@emotion/css-prettifier';
 import { serializeStyles } from '@emotion/serialize';
-import SiteLayout from '@self/components/SiteLayout';
+import SiteLayout from '@/components/SiteLayout';
 import Link from 'next/link';
 import { useState, useRef } from 'react';
 import debounce from 'lodash/debounce';
 const { tokenize } = require('@csstools/tokenizer');
 const prettier = require('prettier');
 const plugins = [require('prettier/parser-babel')];
+
+type Token = {
+  code: number;
+  type: number;
+  lead: string;
+  data: string;
+  tail: string;
+};
 
 function convertObjectStringToCssString(objStr: string) {
   let value = {};
@@ -25,7 +33,7 @@ const replacePropertyName = (property: string) =>
     return firstGroup.toUpperCase();
   });
 
-function iteratorConsumer(iterator: Generator<any, void, unknown>, func) {
+function iteratorConsumer(iterator: Generator<any, void, unknown>, func: (value: Token) => boolean) {
   let value, done;
   while (({ value, done } = iterator.next()) && !done) {
     const result = func(value);
@@ -35,7 +43,7 @@ function iteratorConsumer(iterator: Generator<any, void, unknown>, func) {
   }
 }
 
-function retrieveValueFromIterator(iterator, stack) {
+function retrieveValueFromIterator(iterator: Generator) {
   let accumulatedValue = '';
   let endMarker = ';';
   iteratorConsumer(iterator, (token) => {
@@ -59,7 +67,11 @@ function retrieveValueFromIterator(iterator, stack) {
   };
 }
 
-function retrievePropertyFromIterator(firstToken, iterator, stack) {
+type Scope = {
+  [key: string]: Scope | string;
+};
+
+function retrievePropertyFromIterator(firstToken: Token, iterator: Generator, stack: Scope[]) {
   let scopedProperty = false;
   if (firstToken.data === '&' || firstToken.data === ':') {
     scopedProperty = true;
@@ -69,7 +81,7 @@ function retrievePropertyFromIterator(firstToken, iterator, stack) {
   iteratorConsumer(iterator, (token) => {
     if (!scopedProperty && token.type === 1 && token.code === ':'.charCodeAt(0)) {
       // reached ':'
-      const { value: potentialValue, endMarker } = retrieveValueFromIterator(iterator, stack);
+      const { value: potentialValue, endMarker } = retrieveValueFromIterator(iterator);
       if (endMarker === '{') {
         accumulatedProperty = `${accumulatedProperty}:${potentialValue}`;
         scopedProperty = true;
@@ -147,7 +159,10 @@ function parseCss(cssStr: string) {
 }
 
 function triggerChangeEvent(target: HTMLTextAreaElement, newValue: string, start: number, end: number) {
-  const nativeInputValueSetter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set;
+  const nativeInputValueSetter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
+  if (!nativeInputValueSetter) {
+    return;
+  }
   nativeInputValueSetter.call(target, newValue);
   const event = new Event('input', { bubbles: true });
   target.dispatchEvent(event);
@@ -155,19 +170,20 @@ function triggerChangeEvent(target: HTMLTextAreaElement, newValue: string, start
   target.selectionEnd = end;
 }
 
-function handleOpeningBraceEffect(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-  if (!['{', '(', '['].includes(e.key)) {
+function handleOpeningBraceEffect({ key, currentTarget, preventDefault }: React.KeyboardEvent<HTMLTextAreaElement>) {
+  const braceMatches = { '{': '}', '(': ')', '[': ']' } as const;
+  if (!(key in braceMatches)) {
     return;
   }
-  e.preventDefault();
-  const start = e.currentTarget.selectionStart;
-  const end = e.currentTarget.selectionEnd;
-  const braceMatches = { '{': '}', '(': ')', '[': ']' };
-  const { value } = e.currentTarget;
-
+  preventDefault();
+  const { selectionStart: start, selectionEnd: end, value } = currentTarget;
   triggerChangeEvent(
-    e.currentTarget,
-    value.substring(0, start) + e.key + value.substring(start, end) + braceMatches[e.key] + value.substring(end),
+    currentTarget,
+    value.substring(0, start) +
+      key +
+      value.substring(start, end) +
+      braceMatches[key as keyof typeof braceMatches] +
+      value.substring(end),
     start + 1,
     end + 1,
   );
@@ -244,16 +260,21 @@ const handleSpecialKeys = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
 };
 
 function EmotionStylesConverter() {
-  const stringStylesRef = useRef<HTMLTextAreaElement>();
-  const objectStylesRef = useRef<HTMLTextAreaElement>();
+  const stringStylesRef = useRef<HTMLTextAreaElement>(null);
+  const objectStylesRef = useRef<HTMLTextAreaElement>(null);
   const [info, setInfo] = useState<string>('');
 
   const [handleObjectToString] = useState(() =>
     debounce(() => {
+      const objectStyles = objectStylesRef.current;
+      const stringStyles = stringStylesRef.current;
+      if (!objectStyles || !stringStyles) {
+        return;
+      }
       try {
-        const strOutput = convertObjectStringToCssString(objectStylesRef.current.value);
+        const strOutput = convertObjectStringToCssString(objectStyles.value);
         if (strOutput !== undefined) {
-          stringStylesRef.current.value = strOutput;
+          stringStyles.value = strOutput;
         }
       } catch (e) {
         setInfo(String(e));
@@ -265,9 +286,14 @@ function EmotionStylesConverter() {
 
   const [handleStringToObject] = useState(() =>
     debounce(() => {
+      const objectStyles = objectStylesRef.current;
+      const stringStyles = stringStylesRef.current;
+      if (!objectStyles || !stringStyles) {
+        return;
+      }
       try {
-        const objectOutput = parseCss(stringStylesRef.current.value);
-        objectStylesRef.current.value = objectOutput;
+        const objectOutput = parseCss(stringStyles.value);
+        objectStyles.value = objectOutput;
       } catch (e) {
         setInfo(String(e));
         return;

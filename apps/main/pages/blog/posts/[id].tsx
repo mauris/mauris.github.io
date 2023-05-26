@@ -1,9 +1,10 @@
-import { getAllPosts, PostData } from '@self/lib/postData';
+import { getAllPosts, PostData } from '@/lib/postData';
 import Head from 'next/head';
-import SiteLayout from '@self/components/SiteLayout';
-import PostPaginator from '@self/components/PostPaginator';
-import PostLayout from '@self/components/PostLayout';
-import PostComments from '@self/components/PostComments';
+import SiteLayout from '@/components/SiteLayout';
+import PostPaginator from '@/components/PostPaginator';
+import PostLayout from '@/components/PostLayout';
+import PostComments from '@/components/PostComments';
+import { GetStaticProps } from 'next';
 
 type PostPageProps = {
   post: PostData;
@@ -34,11 +35,11 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params }) {
+export const getStaticProps: GetStaticProps<PostPageProps, { id: string }> = async ({ params }) => {
   // Fetch necessary data for the blog post using params.id
   const { map } = await getAllPosts();
   const props: PostPageProps = {
-    post: map[params.id],
+    post: map[params?.id as string],
   };
 
   if (props.post.prevId) {
@@ -52,4 +53,4 @@ export async function getStaticProps({ params }) {
   return {
     props,
   };
-}
+};

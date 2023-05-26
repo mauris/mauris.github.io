@@ -1,4 +1,4 @@
-import { getAllPosts, PostData, PostsPageData } from '@self/lib/postData';
+import { getAllPosts, PostData, PostsPageData } from '@/lib/postData';
 import PaginatedPostListPage from './blog/pages/[pageNum]';
 
 interface HomeProps {
