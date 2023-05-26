@@ -16,7 +16,9 @@ export default function PostPaginator({ nextPost, prevPost }: PostPaginatorProps
         {prevPost && (
           <div>
             <span className={styles.paginatorLabel}>&#8592; Previous Post</span>
-            <Link href={getLinkToPost(prevPost)}>{prevPost.meta.title}</Link>
+            <Link href={getLinkToPost(prevPost)} passHref>
+              {prevPost.meta.title}
+            </Link>
           </div>
         )}
       </div>
@@ -25,7 +27,9 @@ export default function PostPaginator({ nextPost, prevPost }: PostPaginatorProps
         {nextPost && (
           <div>
             <span className={styles.paginatorLabel}>Next Post &#8594;</span>
-            <Link href={getLinkToPost(nextPost)}>{nextPost.meta.title}</Link>
+            <Link href={getLinkToPost(nextPost)} passHref>
+              {nextPost.meta.title}
+            </Link>
           </div>
         )}
       </div>

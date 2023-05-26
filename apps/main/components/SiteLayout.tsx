@@ -26,19 +26,17 @@ export default function SiteLayout({ title, children }: PropsWithChildren<SiteLa
       </Head>
       <div className={styles.header}>
         <div className={styles.siteLinks}>
-          <Link href="https://github.com/mauris">
-            <a>
-              <GitHubLogoIcon />
-            </a>
+          <Link href="https://github.com/mauris" passHref>
+            <GitHubLogoIcon />
           </Link>
-          <Link href="https://linkedin.com/in/samyong">
-            <a>
-              <LinkedInLogoIcon />
-            </a>
+          <Link href="https://linkedin.com/in/samyong" passHref>
+            <LinkedInLogoIcon />
           </Link>
         </div>
         <h1>
-          <Link href="/">{SITE_TITLE}</Link>
+          <Link href="/" passHref>
+            {SITE_TITLE}
+          </Link>
         </h1>
       </div>
       {children}

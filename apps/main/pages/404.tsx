@@ -7,7 +7,11 @@ export default function Custom404() {
       <div className="py-24">
         <h1 className="text-2xl md:text-3xl font-normal">The page you&apos;re looking for was not found.</h1>
         <p className="text-neutral-500">
-          Try browsing from <Link href="/">Home</Link>.
+          Try browsing from{' '}
+          <Link href="/" passHref>
+            Home
+          </Link>
+          .
         </p>
       </div>
     </SiteLayout>

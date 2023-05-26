@@ -23,17 +23,15 @@ export default function PostLayout({ post }: PostLayoutProps) {
     <article className={styles.postWrapper}>
       <div className={styles.postHeader}>
         <h2 className={styles.postTitle}>{post.meta.title}</h2>
-        <Link href={getLinkToPost(post)}>
-          <a title="Permalink">
-            <LinkIcon />
-          </a>
+        <Link href={getLinkToPost(post)} title="Permalink" passHref>
+          <LinkIcon />
         </Link>
       </div>
       <div className={styles.postMetaLine}>
         <FormattedDate rawDate={post.meta.date}></FormattedDate>
         <div className={styles.postTagContainer}>
           {post.meta.tags?.map((tag) => (
-            <Link href={getLinkToTag(tag)} key={tag}>
+            <Link href={getLinkToTag(tag)} key={tag} passHref>
               {tag}
             </Link>
           ))}
@@ -87,12 +85,15 @@ function PostCoverImage({ coverImage, coverImageCaption }: PostCoverImageProps) 
     <div className={styles.postCoverImage}>
       <div className={styles.postCoverImageWrapper}>
         <Image
+          loader={() => coverImage}
+          unoptimized
           src={coverImage}
           alt={coverImageCaption || ''}
           priority
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
+          fill
+          style={{
+            objectFit: 'cover',
+          }}
         />
       </div>
       {coverImageCaption && <Remark>{coverImageCaption}</Remark>}

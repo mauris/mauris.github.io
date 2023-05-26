@@ -24,10 +24,8 @@ export default function PostsListLayout({ postList }: PostsListLayoutProps) {
       <ul className="list-none">
         {postList.map((post) => (
           <li className={styles.listPostItem} key={post.id}>
-            <Link href={getLinkToPost(post)}>
-              <a title={post.meta.title}>
-                <h4>{post.meta.title}</h4>
-              </a>
+            <Link href={getLinkToPost(post)} title={post.meta.title} passHref>
+              <h4>{post.meta.title}</h4>
             </Link>
             <FormattedDate rawDate={post.meta.date}></FormattedDate>
           </li>

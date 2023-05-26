@@ -315,19 +315,19 @@ function EmotionStylesConverter() {
       <div className="px-2 pt-4">
         Made possible thanks to{' '}
         <span className="font-mono text-sm p-1">
-          <Link href="https://github.com/csstools/tokenizer" target="_blank">
+          <Link href="https://github.com/csstools/tokenizer" target="_blank" passHref>
             @csstools/tokenizer
           </Link>
         </span>
         ,{' '}
         <span className="font-mono text-sm p-1">
-          <Link href="https://github.com/emotion-js/emotion" target="_blank">
+          <Link href="https://github.com/emotion-js/emotion" target="_blank" passHref>
             emotion
           </Link>
         </span>
         ,{' '}
         <span className="font-mono text-sm p-1">
-          <Link href="https://prettier.io/" target="_blank">
+          <Link href="https://prettier.io/" target="_blank" passHref>
             prettier
           </Link>
         </span>

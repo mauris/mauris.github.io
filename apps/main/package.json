@@ -19,17 +19,17 @@
     "@giscus/react": "^2.0.1",
     "@libs/common": "*",
     "autoprefixer": "^10.4.7",
-    "cssnano": "^5.1.11",
+    "cssnano": "^6.0.1",
+    "eslint-config-next": "^13.4.4",
     "gray-matter": "^4.0.3",
-    "next": "^12.1.6",
+    "next": "^13.4.4",
     "next-compose-plugins": "^2.2.1",
     "next-optimized-classnames": "https://github.com/mauris/next-optimized-classnames",
     "next-themes": "^0.2.0",
-    "next-transpile-modules": "^9.0.0",
-    "node-fetch": "^3.2.3",
+    "node-fetch": "^3.3.1",
     "postcss": "^8.4.14",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-remark": "^2.1.0",
     "react-syntax-highlighter": "^15.5.0",
     "rehype-autolink-headings": "^6.1.1",
@@ -37,16 +37,15 @@
     "rehype-slug": "^5.0.1",
     "remark": "^14.0.2",
     "remark-gemoji": "^7.0.1",
-    "tailwindcss": "^3.1.2"
+    "tailwindcss": "^3.3.2"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.42",
     "@types/react": "^18.0.12",
-    "eslint": "8.12.0",
+    "eslint": "8.41.0",
     "eslint-config-next": "12.1.4",
-    "jest": "^28.1.1",
-    "sass": "^1.52.3",
-    "typescript": "^4.9.3"
+    "jest": "^29.5.0",
+    "sass": "^1.62.1"
   }
 }

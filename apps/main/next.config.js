@@ -1,7 +1,5 @@
 const withPlugins = require('next-compose-plugins');
 
-const withTM = require('next-transpile-modules')(['@libs/common'], { resolveSymlinks: false });
-
 /**
  * @type {import('next').NextConfig}
  */
@@ -9,18 +7,6 @@ const nextConfig = {
   reactStrictMode: true,
   optimizeFonts: true,
   experimental: {
-    // React 18
-    // @link https://nextjs.org/docs/advanced-features/react-18
-    reactRoot: true,
-    // React 18 streaming
-    // @link https://nextjs.org/docs/advanced-features/react-18/streaming
-    runtime: undefined,
-    // React 18 server components
-    // @link https://nextjs.org/docs/advanced-features/react-18/server-components
-    serverComponents: false,
-    // Standalone build
-    // @link https://nextjs.org/docs/advanced-features/output-file-tracing#automatically-copying-traced-files-experimental
-    outputStandalone: false,
     // @link https://nextjs.org/docs/advanced-features/output-file-tracing#caveats
     outputFileTracingRoot: undefined, // ,path.join(__dirname, '../../'),
     // Prefer loading of ES Modules over CommonJS
@@ -32,13 +18,9 @@ const nextConfig = {
     // @link {https://github.com/vercel/next.js/discussions/26420|Discussion}
     externalDir: true,
   },
-  images: {
-    loader: 'akamai',
-    path: '',
-  },
+  transpilePackages: ['@libs/common']
 };
 
 module.exports = withPlugins([
-  [require('next-optimized-classnames')],
-  [withTM]
+  [require('next-optimized-classnames')]
 ], nextConfig);
