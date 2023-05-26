@@ -10,7 +10,6 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "build:export": "next export",
     "start": "next start",
     "test:unit": "jest",
     "test:lint": "next lint"

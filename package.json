@@ -11,7 +11,6 @@
   "scripts": {
     "dev": "yarn workspaces foreach -pti --from '@apps/*' run dev",
     "build": "yarn workspaces foreach -pti --from '@apps/*' run build",
-    "build:export": "yarn workspaces foreach -pti --from '@apps/*' run build:export",
     "start": "yarn workspaces foreach -pti --from '@apps/*' run start",
     "test:unit": "yarn workspaces foreach run test:unit",
     "test:lint": "yarn workspaces foreach run test:lint"

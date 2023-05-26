@@ -61,7 +61,6 @@ jobs:
         run: |
           yarn
           yarn build
-          yarn build:export
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

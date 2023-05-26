@@ -4,6 +4,7 @@ const withPlugins = require('next-compose-plugins');
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+  output: 'export',
   reactStrictMode: true,
   optimizeFonts: true,
   experimental: {
@@ -17,6 +18,9 @@ const nextConfig = {
     // @link {https://github.com/vercel/next.js/pull/22867|Original PR}
     // @link {https://github.com/vercel/next.js/discussions/26420|Discussion}
     externalDir: true,
+  },
+  images: {
+    unoptimized: true
   },
   transpilePackages: ['@libs/common']
 };
