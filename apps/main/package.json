@@ -24,7 +24,7 @@
     "next": "^13.4.4",
     "next-compose-plugins": "^2.2.1",
     "next-optimized-classnames": "https://github.com/mauris/next-optimized-classnames",
-    "next-themes": "^0.2.0",
+    "next-themes": "^0.2.1",
     "node-fetch": "^3.3.1",
     "postcss": "^8.4.14",
     "react": "^18.2.0",

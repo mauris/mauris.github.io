@@ -20,7 +20,7 @@ export function DarkLightThemeToggle() {
 
   const toggleTheme: MouseEventHandler = (e) => {
     e.preventDefault();
-    let currentIdx = theme && theme in toggleChoices ? toggleChoices.indexOf(theme as ThemeChoice) : 0;
+    let currentIdx = theme ? toggleChoices.indexOf(theme as ThemeChoice) : 0;
     if (currentIdx === toggleChoices.length - 1) {
       currentIdx = -1;
     }
