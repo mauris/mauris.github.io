@@ -1,5 +1,5 @@
 ---
-title: 'Architecting Asynchronous State Synchronisation between Backend Services'
+title: 'Architecting Asynchronous State Synchronization between Backend Services'
 date: '2023-12-09'
 coverImage: https://images.unsplash.com/photo-1520923642038-b4259acecbd7?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&dl=annie-spratt-goholCAVTRs-unsplash.jpg&w=1920
 coverImageCaption: Photo by [Annie Spratt](https://unsplash.com/@anniespratt) on Unsplash
